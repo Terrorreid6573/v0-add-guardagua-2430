@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Outfit, DM_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { Toaster } from '@/components/ui/sonner'
 import './globals.css'
 
 const outfit = Outfit({ 
@@ -45,6 +46,7 @@ export default function RootLayout({
     <html lang="es" className="bg-background">
       <body className={`${outfit.variable} ${dmMono.variable} font-sans antialiased`}>
         {children}
+        <Toaster />
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>

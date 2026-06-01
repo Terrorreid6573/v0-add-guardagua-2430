@@ -1,10 +1,21 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { ArrowRight } from "lucide-react"
+import { MonitoringDemo } from "@/components/monitoring-demo"
+import { toast } from "sonner"
 
 export default function CTA() {
+  const [demoOpen, setDemoOpen] = useState(false)
+
+  const handleContactSales = () => {
+    toast.success("Solicitud enviada", {
+      description: "Un representante se pondra en contacto contigo pronto.",
+    })
+  }
+
   return (
     <section className="py-24 bg-gradient-to-b from-[#0a1628] to-[#0d1d30] relative overflow-hidden">
       {/* Background effects */}
@@ -42,6 +53,7 @@ export default function CTA() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                 <Button 
                   size="lg" 
+                  onClick={() => setDemoOpen(true)}
                   className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold px-8 py-6 text-lg rounded-xl shadow-lg shadow-cyan-500/25 hover:shadow-cyan-400/40 transition-all duration-300 hover:scale-105 group"
                 >
                   Solicitar Demo
@@ -50,6 +62,7 @@ export default function CTA() {
                 <Button 
                   size="lg" 
                   variant="outline" 
+                  onClick={handleContactSales}
                   className="border-cyan-400/30 text-cyan-400 hover:bg-cyan-400/10 hover:border-cyan-400/50 font-semibold px-8 py-6 text-lg rounded-xl transition-all duration-300"
                 >
                   Contactar Ventas
@@ -59,6 +72,8 @@ export default function CTA() {
           </div>
         </div>
       </div>
+
+      <MonitoringDemo open={demoOpen} onOpenChange={setDemoOpen} />
     </section>
   )
 }

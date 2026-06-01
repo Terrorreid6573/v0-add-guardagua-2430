@@ -1,28 +1,41 @@
 "use client"
 
+import { useState } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Droplets, Shield, Wifi } from "lucide-react"
+import { MonitoringDemo } from "@/components/monitoring-demo"
 
 export default function Hero() {
+  const [demoOpen, setDemoOpen] = useState(false)
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#0a1628] via-[#0f2035] to-[#0a1628]">
       {/* Animated background particles */}
       <div className="absolute inset-0 overflow-hidden">
-        {[...Array(20)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute rounded-full bg-cyan-400/20 animate-float"
-            style={{
-              width: `${Math.random() * 20 + 5}px`,
-              height: `${Math.random() * 20 + 5}px`,
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${Math.random() * 10 + 10}s`,
-            }}
-          />
-        ))}
+        {[...Array(20)].map((_, i) => {
+          // Use deterministic values based on index to avoid hydration mismatch
+          const size = 5 + ((i * 7) % 20)
+          const left = (i * 23) % 100
+          const top = (i * 17) % 100
+          const delay = (i * 0.5) % 5
+          const duration = 10 + (i % 10)
+          
+          return (
+            <div
+              key={i}
+              className="absolute rounded-full bg-cyan-400/20 animate-float"
+              style={{
+                width: `${size}px`,
+                height: `${size}px`,
+                left: `${left}%`,
+                top: `${top}%`,
+                animationDelay: `${delay}s`,
+                animationDuration: `${duration}s`,
+              }}
+            />
+          )
+        })}
       </div>
 
       {/* Glowing orbs */}
@@ -91,6 +104,7 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row gap-4 mb-16">
             <Button 
               size="lg" 
+              onClick={() => setDemoOpen(true)}
               className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold px-8 py-6 text-lg rounded-xl shadow-lg shadow-cyan-500/25 hover:shadow-cyan-400/40 transition-all duration-300 hover:scale-105"
             >
               <Wifi className="mr-2 h-5 w-5" />
@@ -99,6 +113,7 @@ export default function Hero() {
             <Button 
               size="lg" 
               variant="outline" 
+              onClick={() => setDemoOpen(true)}
               className="border-cyan-400/30 text-cyan-400 hover:bg-cyan-400/10 hover:border-cyan-400/50 font-semibold px-8 py-6 text-lg rounded-xl transition-all duration-300"
             >
               Ver Demo
@@ -146,6 +161,8 @@ export default function Hero() {
         .animate-shimmer { animation: shimmer 3s ease-in-out infinite; }
         .animate-spin-slow { animation: spin-slow 15s linear infinite; }
       `}</style>
+
+      <MonitoringDemo open={demoOpen} onOpenChange={setDemoOpen} />
     </section>
   )
 }
